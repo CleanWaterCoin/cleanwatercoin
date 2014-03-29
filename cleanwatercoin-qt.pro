@@ -67,6 +67,8 @@ contains(USE_DBUS, 1) {
     QT += dbus
 }
 
++QT += network
+
 # use: qmake "USE_IPV6=1" ( enabled by default; default)
 #  or: qmake "USE_IPV6=0" (disabled by default)
 #  or: qmake "USE_IPV6=-" (not supported)

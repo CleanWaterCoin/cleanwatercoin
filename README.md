@@ -24,7 +24,7 @@ Block Rewards:
 (10,000)(1/√(Difficulty+500)) from block 500,001+
 
 
-POS Schedule: Coins mature after 7 days 
+POS Schedule: Coins mature after 20 days
 
 POS Rewards: 	Fixed 8% beginning at block 7001-500,000 
 				Fixed 7% beginning at block 500,000-1,000,000 
