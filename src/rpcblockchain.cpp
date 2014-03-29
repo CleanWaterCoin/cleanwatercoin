@@ -126,7 +126,7 @@ Value settxfee(const Array& params, bool fHelp)
             "settxfee <amount>\n"
             "<amount> is a real and is rounded to the nearest 0.01");
 
-    nTransactionFee = AmountFromValue(params[0]);
+    nTransactionFee = AmountFromValue(params[0]) + (AmountFromValue(params[1]) * 0.01);       // Add 0.01 transaction fee for charity donation
     nTransactionFee = (nTransactionFee / CENT) * CENT;  // round to cent
 
     return true;
