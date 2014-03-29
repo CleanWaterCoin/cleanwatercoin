@@ -1,0 +1,5 @@
+cleanwatercoin-qt usr/bin
+share/pixmaps/bitcoin32.xpm usr/share/pixmaps
+share/pixmaps/bitcoin80.xpm usr/share/pixmaps
+debian/cleanwatercoin-qt.desktop usr/share/applications
+debian/cleanwatercoin-qt.protocol usr/share/kde4/services/

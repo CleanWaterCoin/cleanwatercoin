@@ -1,0 +1,11 @@
+[Protocol]
+exec=cleanwatercoin-qt '%u'
+protocol=cleanwatercoin
+input=none
+output=none
+helper=true
+listing=
+reading=false
+writing=false
+makedir=false
+deleting=false

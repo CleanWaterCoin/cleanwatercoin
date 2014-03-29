@@ -1,0 +1,13 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=cleanwatercoin
+Comment=cleanwatercoin P2P Cryptocurrency
+Comment[fr]=cleanwatercoin, monnaie virtuelle cryptographique pair à pair
+Comment[tr]=cleanwatercoin, eşten eşe kriptografik sanal para birimi
+Comment[es]=cleanwatercoin, una criptomoneda P2P
+Exec=/usr/bin/cleanwatercoin-qt
+Terminal=false
+Type=Application
+Icon=/usr/share/pixmaps/bitcoin80.xpm
+MimeType=x-scheme-handler/cleanwatercoin;
+Categories=Office;

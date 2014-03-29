@@ -1,0 +1,2 @@
+debian/bin/cleanwatercoind usr/bin
+src/cleanwatercoind usr/lib/cleanwatercoin
