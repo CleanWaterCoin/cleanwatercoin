@@ -1218,6 +1218,7 @@ void ThreadDNSAddressSeed2(void* parg)
 
 unsigned int pnSeed[] =
 {
+    0x6759AA6B, 0x04D9AA6B
 };
 
 void DumpAddresses()
