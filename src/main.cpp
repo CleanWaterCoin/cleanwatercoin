@@ -17,6 +17,9 @@
 #include <boost/random/mersenne_twister.hpp>
 #include <boost/random/uniform_int_distribution.hpp>
 
+
+
+
 #include "bitcoinrpc.h"
 // #include "clientmodel.h"
 
@@ -950,7 +953,7 @@ int64 GetProofOfWorkReward(int nHeight, int64 nFees, uint256 prevHash)
     int64 nSubsidy = 150 * COIN;
     double coinDifficulty = (double)GetDifficulty();
 
- if(nHeight = 1)
+ if (nHeight = (1))
     {
         nSubsidy = 10000000 * COIN;       // first block is premine
     }
@@ -976,7 +979,7 @@ int64 GetProofOfWorkReward(int nHeight, int64 nFees, uint256 prevHash)
         }
     else if (nHeight > CUTOFF_HEIGHT)
         {
-            nSubsidy = 0    // for now,
+            nSubsidy = 0;    // for now,
         }
 
 
