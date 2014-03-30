@@ -246,6 +246,7 @@ SOURCES += src/qt/bitcoin.cpp src/qt/bitcoingui.cpp \
     src/scrypt_mine.cpp \
     src/pbkdf2.cpp \
     src/qt/banner.cpp
+    src/scrypt.cpp \
 
 RESOURCES += \
     src/qt/bitcoin.qrc

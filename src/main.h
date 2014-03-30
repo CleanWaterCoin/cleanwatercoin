@@ -11,6 +11,7 @@
 #include "script.h"
 #include "scrypt_mine.h"
 #include "scrypt.h"
+#include "pbkdf2.h"
 
 #include <list>
 
@@ -55,8 +56,8 @@ static const int fHaveUPnP = true;
 static const int fHaveUPnP = false;
 #endif
 
-static const uint256 hashGenesisBlockOfficial("0x");
-static const uint256 hashGenesisBlockTestNet ("0x");
+static const uint256 hashGenesisBlockOfficial("0x0000029c5af0435f4cc6068205cba81e7d6f57722f29e8d49763ee229a702a84");
+static const uint256 hashGenesisBlockTestNet ("0x0000029c5af0435f4cc6068205cba81e7d6f57722f29e8d49763ee229a702a84");
 
 static const int64 nMaxClockDrift = 2 * 60 * 60;        // two hours
 
