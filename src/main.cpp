@@ -2593,7 +2593,7 @@ bool LoadBlockIndex(bool fAllowNew)
         block.nVersion = 1;
         block.nTime    = 1396137617;
         block.nBits    = bnProofOfWorkLimit.GetCompact();
-        block.nNonce   = 12488421;
+        block.nNonce   = 1303685;
 
         //// debug print
         block.print();
