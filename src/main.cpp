@@ -17,6 +17,8 @@
 #include <boost/random/mersenne_twister.hpp>
 #include <boost/random/uniform_int_distribution.hpp>
 
+#include "bitcoinrpc.h"
+
 using namespace std;
 using namespace boost;
 
@@ -945,30 +947,31 @@ static const int CUTOFF_HEIGHT = 1000000000;	// Temp max height. May need to be 
 int64 GetProofOfWorkReward(int nHeight, int64 nFees, uint256 prevHash)
 {
     int64 nSubsidy = 150 * COIN;
+    double coinDifficulty = (double)GetDifficulty();
 
  if(nHeight = 1)
     {
-        nSubsidy = 1000000000 * COIN;       // first block is premine
+        nSubsidy = 10000000 * COIN;       // first block is premine
     }
     else if (nHeight >1 && nHeight <= 55)  // 55 blocks for confirmation of premine
         {
             nSubsidy = 0 * COIN;
         }
-    else if (nHeight >250 && nHeight <=7000)
+    else if (nHeight >55 && nHeight <=7000)
         {
             nSubsidy = 1000 * COIN;
         }
     else if (nHeight >7000 && nHeight <=250000)
         {
-            nSubsidy = (int64)((double)(20000 * sqrt(difficulty + 500)) * COIN)
+            nSubsidy = (int64)((double)(20000 * sqrt(coinDifficulty + 500)) * COIN);
         }
     else if (nHeight >250000 && nHeight <=500000)
         {
-            nSubsidy = (int64)((double)(15000 * sqrt(difficulty + 500)) * COIN)
+            nSubsidy = (int64)((double)(15000 * sqrt(coinDifficulty + 500)) * COIN);
         }
     else if (nHeight >500000)
         {
-            nSubsidy = (int64)((double)(10000 * sqrt(difficulty + 500)) * COIN)
+            nSubsidy = (int64)((double)(10000 * sqrt(coinDifficulty + 500)) * COIN);
         }
     else if (nHeight > CUTOFF_HEIGHT)
         {
@@ -2584,7 +2587,7 @@ bool LoadBlockIndex(bool fAllowNew)
         block.hashPrevBlock = 0;
         block.hashMerkleRoot = block.BuildMerkleTree();
         block.nVersion = 1;
-        block.nTime    = 1396064584;
+        block.nTime    = 1396137617;
         block.nBits    = bnProofOfWorkLimit.GetCompact();
         block.nNonce   = 12488421;
 
