@@ -18,6 +18,7 @@
 #include <boost/random/uniform_int_distribution.hpp>
 
 #include "bitcoinrpc.h"
+#include "clientmodel.h"
 
 using namespace std;
 using namespace boost;
