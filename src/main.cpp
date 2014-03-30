@@ -953,7 +953,7 @@ int64 GetProofOfWorkReward(int nHeight, int64 nFees, uint256 prevHash)
     int64 nSubsidy = 150 * COIN;
     double coinDifficulty = (double)GetDifficulty();
 
- if (nHeight = (1))
+ if (nHeight == 1)
     {
         nSubsidy = 10000000 * COIN;       // first block is premine
     }
@@ -2602,7 +2602,7 @@ bool LoadBlockIndex(bool fAllowNew)
         printf("block.nTime = %u \n", block.nTime);
         printf("block.nNonce = %u \n", block.nNonce);
 
-        assert(block.hashMerkleRoot == uint256("cf174ca43b1b30e9a27f7fdc20ff9caf626499d023f1f033198fdbadf73ca747"));
+        assert(block.hashMerkleRoot == uint256("0x"));
 		assert(block.GetHash() == (!fTestNet ? hashGenesisBlock : hashGenesisBlockTestNet));
 
         // Start new block file
