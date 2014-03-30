@@ -1141,10 +1141,16 @@ void MapPort()
 // Each pair gives a source name and a seed name.
 // The first name is used as information source for addrman.
 // The second name should resolve to a list of seed addresses.
+<<<<<<< HEAD
 
 //static const char *strMainNetDNSSeed[][2] = {
 //    {"seed.cleanwatercoin.org", "seed.cleanwatercoin.org"},
 //};
+=======
+static const char *strMainNetDNSSeed[][2] = {
+    {"seed.cleanwatercoin.org", "seed.cleanwatercoin.org"},
+};
+>>>>>>> 27de59914e3702a24ccf0e625c5971736678965b
 
 static const char *strDNSSeed[][2] = {
     {"seed.cleanwatercoin.org", "seed.cleanwatercoin.org"},
