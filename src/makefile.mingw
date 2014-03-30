@@ -82,6 +82,7 @@ OBJS= \
     obj/pbkdf2.o \
     obj/scrypt_mine.o \
     obj/scrypt-x86.o \
+	obj/scrypt.h \
     obj/scrypt-x86_64.o
 
 all: cleanwatercoind.exe
