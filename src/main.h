@@ -45,7 +45,7 @@ static const unsigned int LOCKTIME_THRESHOLD = 500000000; // Tue Nov  5 00:53:20
 
 
 static const int MAX_SCRIPTCHECK_THREADS = 16;
-#define CHARITY_ADDRESS "1cec44c9f9b769ae08ebf9d694c7611a16edf615" // Cleanwatercoin Charity Address
+#define CHARITY_ADDRESS "none yet" // Cleanwatercoin Charity Address
 extern CScript CHARITY_SCRIPT;
 
 #ifdef USE_UPNP
@@ -54,8 +54,8 @@ static const int fHaveUPnP = true;
 static const int fHaveUPnP = false;
 #endif
 
-static const uint256 hashGenesisBlockOfficial("0xaf4ac34e7ef10a08fe2ba692eb9a9c08cf7e89fcf352f9ea6f0fd73ba3e5d03c");
-static const uint256 hashGenesisBlockTestNet ("0xaf4ac34e7ef10a08fe2ba692eb9a9c08cf7e89fcf352f9ea6f0fd73ba3e5d03c");
+static const uint256 hashGenesisBlockOfficial("0x");
+static const uint256 hashGenesisBlockTestNet ("0x");
 
 static const int64 nMaxClockDrift = 2 * 60 * 60;        // two hours
 
