@@ -275,7 +275,7 @@ public:
     {
         PUBKEY_ADDRESS = 11,  // cleanwatercoin: address begin with 'C'
         SCRIPT_ADDRESS = 8,
-        PUBKEY_ADDRESS_TEST = 35,
+        PUBKEY_ADDRESS_TEST = 113,
         SCRIPT_ADDRESS_TEST = 196,
     };
 
