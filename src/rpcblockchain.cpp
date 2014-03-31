@@ -119,6 +119,7 @@ Value getdifficulty(const Array& params, bool fHelp)
 }
 
 
+/*
 Value settxfee(const Array& params, bool fHelp)
 {
     if (fHelp || params.size() < 1 || params.size() > 1 || AmountFromValue(params[0]) < MIN_TX_FEE)
@@ -129,6 +130,22 @@ Value settxfee(const Array& params, bool fHelp)
     nTransactionFee = AmountFromValue(params[0]) + (AmountFromValue(params[1]) * 0.01);       // Add 0.01 transaction fee for charity donation
     nTransactionFee = (nTransactionFee / CENT) * CENT;  // round to cent
 
+    return true;
+}
+
+*/
+
+// Edit for daemon problems over 15k. Donation percentage not implemented yet so this will be updated anyyway.
+
+Value settxfee(const Array& params, bool fHelp)
+{
+    if (fHelp || params.size() < 1 || params.size() > 1 || AmountFromValue(params[0]) < MIN_TX_FEE)
+        throw runtime_error(
+            "settxfee <amount>\n"
+            "<amount> is a real and is rounded to the nearest 0.01");
+    nTransactionFee = AmountFromValue(params[0]);// + (AmountFromValue(params[1]) * 0.01);       // Add 0.01 transaction fee for charity donation
+    nTransactionFee = (uint64)((double)(nTransactionFee / CENT) * CENT);  // round to cent
+    printf("settxfee( %f ) { %llu } = %llu\n", params[0].get_real(), AmountFromValue(params[0]), nTransactionFee);
     return true;
 }
 
