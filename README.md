@@ -42,6 +42,6 @@ Charity Wallet Donation:
 4 Confirmations for transactions
 
 
-RPC Port: 53590 
-P2P Port: 53591
+P2P Port: 53590 
+RPC Port: 53591
 
