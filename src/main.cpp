@@ -983,7 +983,7 @@ int64 GetProofOfWorkReward(int nHeight, int64 nFees, uint256 prevHash)
         }
     else if (nHeight >500000)
         {
-            nSubsidy = (int64)((double)(10000 * rewardCalc)) * COIN);
+            nSubsidy = (int64)((double)(10000 * rewardCalc) * COIN);
         }
     else if (nHeight > CUTOFF_HEIGHT)
         {
