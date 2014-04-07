@@ -943,7 +943,7 @@ int generateMTRandom(unsigned int s, int range)
 
 
 static const int64 nMinSubsidy = 1 * COIN;
-static const int CUTOFF_HEIGHT = 10000000000;	// Temp max height. May need to be forked based on varied reward system. // UPPED TO 10 BILLION FOR NOW
+static const int CUTOFF_HEIGHT = 1000000000;	// Temp max height. May need to be forked based on varied reward system
 // miner's coin base reward based on nBits
 int64 GetProofOfWorkReward(int nHeight, int64 nFees, uint256 prevHash)
 {
