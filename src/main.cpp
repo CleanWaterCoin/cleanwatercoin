@@ -951,7 +951,7 @@ int64 GetProofOfWorkReward(int nHeight, int64 nFees, uint256 prevHash)
     int64 nSubsidy = 150 * COIN;
     double coinDifficulty = (double)GetDifficulty();
 
-    int64 rewardCalc = 1/sqrt(coinDifficulty + 500);
+    int64 rewardCalc = 1/(sqrt(coinDifficulty + 500));
 
  if (nHeight == 1)
     {
@@ -970,14 +970,14 @@ int64 GetProofOfWorkReward(int nHeight, int64 nFees, uint256 prevHash)
             nSubsidy = (int64)((double)(20000 * sqrt(coinDifficulty + 500)) * COIN);
         }
 
- // fork here for proper block reward
+ // fork here for proper block reward - 8000 per cleanwatercoin guys
 
     else if (nHeight >= 8000 && nHeight <= 250000)
      {
              nSubsidy = (int64)((double)(20000 * rewardCalc) * COIN);
      }
 
-    else if (nHeight >250000 && nHeight <= 500000)
+    else if (nHeight > 250000 && nHeight <= 500000)
         {
             nSubsidy = (int64)((double)(15000 * rewardCalc) * COIN);
         }
