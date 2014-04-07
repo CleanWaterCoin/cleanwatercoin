@@ -965,14 +965,14 @@ int64 GetProofOfWorkReward(int nHeight, int64 nFees, uint256 prevHash)
         {
             nSubsidy = 1000 * COIN;
         }
-    else if (nHeight >7000 && nHeight < 7350)
+    else if (nHeight >7000 && nHeight < 8000)
         {
             nSubsidy = (int64)((double)(20000 * sqrt(coinDifficulty + 500)) * COIN);
         }
 
  // fork here for proper block reward
 
-    else if (nHeight >= 7350 && nHeight <= 250000)
+    else if (nHeight >= 8000 && nHeight <= 250000)
      {
              nSubsidy = (int64)((double)(20000 * rewardCalc) * COIN);
      }
