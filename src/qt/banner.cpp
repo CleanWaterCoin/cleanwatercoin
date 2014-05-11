@@ -69,7 +69,9 @@ void Banner::download(int s)
 
   boost::filesystem::path tmpfile = tmpPath / FILE_TMP;
 
-  file = new QFile(QString(tmpfile.c_str()));
+  
+  file = new QFile(QString::fromWCharArray(tmpfile.c_str()));
+
   if (!file->open(QIODevice::WriteOnly)) {
     delete file;
     file = 0;
@@ -91,10 +93,10 @@ void Banner::updateBanner()
   if (boost::filesystem::exists(tmpPath / FILE_TXT) &&
       boost::filesystem::exists(tmpPath / FILE_IMG))
   {
-    QImage image((tmpPath / FILE_IMG).c_str());
+    QImage image(QString::fromWCharArray((tmpPath / FILE_IMG).c_str()));
     setPixmap(QPixmap::fromImage(image));
 
-    QFile inputFile((tmpPath / FILE_TXT).c_str());
+    QFile inputFile(QString::fromWCharArray((tmpPath / FILE_TXT).c_str()));
     if (inputFile.open(QIODevice::ReadOnly))
     {
        QTextStream in(&inputFile);

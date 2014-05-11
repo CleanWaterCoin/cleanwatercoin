@@ -1,3 +1,17 @@
+BOOST_LIB_SUFFIX=-mgw46-mt-1_55
+BOOST_INCLUDE_PATH=C:/deps/boost_1_55_0
+BOOST_LIB_PATH=C:/deps/boost_1_55_0/stage/lib
+BDB_INCLUDE_PATH=C:/deps/db/build_unix
+BDB_LIB_PATH=C:/deps/db/build_unix
+OPENSSL_INCLUDE_PATH=C:/deps/ssl/include
+OPENSSL_LIB_PATH=C:/deps/ssl
+MINIUPNPC_INCLUDE_PATH=C:/deps/
+MINIUPNPC_LIB_PATH=C:/deps/miniupnpc
+
+#CONFIG += static
+win32:QMAKE_LFLAGS *= -Wl,--large-address-aware -static
+
+
 TEMPLATE = app
 TARGET = cleanwatercoin-qt
 VERSION = 0.7.2
