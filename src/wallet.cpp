@@ -1307,18 +1307,22 @@ bool CWallet::CreateTransaction(const vector<pair<CScript, int64> >& vecSend, CW
                 else
                     reservekey.ReturnKey();
 
-/*                if (nCharityRet > 0)
+                if (nCharityRet > 0)
                 {
                     // We inject the charity amount as a normal tx transaction with destination
-                    // the charity Address
+                    // the charity Address (different for testnet)
                     CScript scriptCharityPubKey;
-                    scriptCharityPubKey.SetDestination(CBitcoinAddress(CHARITY_ADDRESS).Get());
+                    if (fTestNet) {
+                            scriptCharityPubKey.SetDestination(CBitcoinAddress(CHARITY_ADDRESS_TESTNET).Get());
+                    } else {
+                        scriptCharityPubKey.SetDestination(CBitcoinAddress(CHARITY_ADDRESS).Get());
+                    }
 
                     vector<CTxOut>::iterator position = wtxNew.vout.begin()+GetRandInt(wtxNew.vout.size());
                     wtxNew.vout.insert(position, CTxOut(nCharityRet, scriptCharityPubKey));
 
                 }
-*/
+
                 // Fill vin
                 BOOST_FOREACH(const PAIRTYPE(const CWalletTx*,unsigned int)& coin, setCoins)
                     wtxNew.vin.push_back(CTxIn(coin.first->GetHash(),coin.second));
