@@ -116,6 +116,7 @@ QList<TransactionRecord> TransactionRecord::decomposeTransaction(const CWallet *
                     sub.type = TransactionRecord::SendToAddress;
                     sub.address = CBitcoinAddress(address).ToString();
                 }
+// this is where to inject donation type
                 else
                 {
                     // Sent to IP, or other non-address transaction like OP_EVAL
