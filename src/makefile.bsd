@@ -139,7 +139,7 @@ OBJS= \
 all: cleanwatercoind
 
 test check: test_cleanwatercoin FORCE
-	./test_BottleCaps
+	./test_cleanwatercoin
 
 # auto-generated dependencies:
 -include obj/*.P
