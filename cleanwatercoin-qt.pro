@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 TEMPLATE = app
 TARGET = cleanwatercoin-qt
 VERSION = 0.7.2
@@ -784,4 +783,3 @@ contains(RELEASE, 1) {
 }
 
 system($$QMAKE_LRELEASE -silent $$_PRO_FILE_)
->>>>>>> 1b225c54858d5f9ac25504870d042d2a66dcf10b
