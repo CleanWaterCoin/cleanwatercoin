@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 // Copyright (c) 2009-2012 The Bitcoin developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
@@ -890,4 +889,3 @@ bool CSyncCheckpoint::ProcessSyncCheckpoint(CNode* pfrom)
     printf("ProcessSyncCheckpoint: sync-checkpoint at %s\n", hashCheckpoint.ToString().c_str());
     return true;
 }
->>>>>>> 1b225c54858d5f9ac25504870d042d2a66dcf10b
