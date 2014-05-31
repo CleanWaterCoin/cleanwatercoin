@@ -42,6 +42,30 @@ double GetDifficulty(const CBlockIndex* blockindex)
     return dDiff;
 }
 
+double GetPoSKernelPS()
+{
+    int nPoSInterval = 72;
+    double dStakeKernelsTriedAvg = 0;
+    int nStakesHandled = 0, nStakesTime = 0;
+
+    CBlockIndex* pindex = pindexBest;;
+    CBlockIndex* pindexPrevStake = NULL;
+
+    while (pindex && nStakesHandled < nPoSInterval)
+    {
+        if (pindex->IsProofOfStake())
+        {
+            dStakeKernelsTriedAvg += GetDifficulty(pindex) * 4294967296.0;
+            nStakesTime += pindexPrevStake ? (pindexPrevStake->nTime - pindex->nTime) : 0;
+            pindexPrevStake = pindex;
+            nStakesHandled++;
+        }
+
+        pindex = pindex->pprev;
+    }
+
+    return nStakesTime ? dStakeKernelsTriedAvg / nStakesTime : 0;
+}
 
 Object blockToJSON(const CBlock& block, const CBlockIndex* blockindex, bool fPrintTransactionDetail)
 {
@@ -117,27 +141,6 @@ Value getdifficulty(const Array& params, bool fHelp)
     obj.push_back(Pair("search-interval",      (int)nLastCoinStakeSearchInterval));
     return obj;
 }
-
-
-/*
-Value settxfee(const Array& params, bool fHelp)
-{
-    if (fHelp || params.size() < 1 || params.size() > 1 || AmountFromValue(params[0]) < MIN_TX_FEE)
-        throw runtime_error(
-            "settxfee <amount>\n"
-            "<amount> is a real and is rounded to the nearest 0.01");
-
-    nTransactionFee = AmountFromValue(params[0]) + (AmountFromValue(params[1]) * 0.01);       // Add 0.01 transaction fee for charity donation
-    nTransactionFee = (nTransactionFee / CENT) * CENT;  // round to cent
-
-    return true;
-}
-
-*/
-
-// Edit for daemon problems over 15k.
-
-// Another edit for over 10k a couple pools are having
 
 
 Value settxfee(const Array& params, bool fHelp)

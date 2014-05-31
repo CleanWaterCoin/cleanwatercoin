@@ -18,7 +18,7 @@
 #include <boost/random/uniform_int_distribution.hpp>
 #include "bitcoinrpc.h"
 #include "main.h"
-
+//
 // #include "clientmodel.h"
 
 using namespace std;
@@ -81,7 +81,7 @@ int64 nHPSTimerStart;
 
 // Settings
 int64 nTransactionFee = MIN_TX_FEE;
-
+int64 nCharityFee = 0;
 
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -473,8 +473,11 @@ bool CTransaction::CheckTransaction() const
             return DoS(100, error("CTransaction::CheckTransaction() : txout empty for user transaction"));
 
         // ppcoin: enforce minimum output amount
-        //if ((!txout.IsEmpty()) && txout.nValue < MIN_TXOUT_AMOUNT)
-        //    return DoS(100, error("CTransaction::CheckTransaction() : txout.nValue below minimum"));
+        if ((!txout.IsEmpty()) && txout.nValue < MIN_TXOUT_AMOUNT)
+        {
+            printf ("ERROR::: CTransaction::CheckTransaction() : txout.nValue below minimum. %"PRI64d" < %"PRI64d" (txout.nValue < MIN_TXOUT_AMOUNT)\n", txout.nValue, MIN_TXOUT_AMOUNT);
+//            return DoS(100, error("CTransaction::CheckTransaction() : txout.nValue below minimum"));
+        }
 
         if (txout.nValue > MAX_MONEY)
             return DoS(100, error("CTransaction::CheckTransaction() : txout.nValue too high"));
@@ -509,12 +512,12 @@ bool CTransaction::CheckTransaction() const
 
 
 int64 CTransaction::GetMinFee(unsigned int nBlockSize, bool fAllowFree,
-                              enum GetMinFee_mode mode) const
+                              enum GetMinFee_mode mode, unsigned int nBytes) const
 {
     // Base fee is either MIN_TX_FEE or MIN_RELAY_TX_FEE
     int64 nBaseFee = (mode == GMF_RELAY) ? MIN_RELAY_TX_FEE : MIN_TX_FEE;
 
-    unsigned int nBytes = ::GetSerializeSize(*this, SER_NETWORK, PROTOCOL_VERSION);
+//    unsigned int nBytes = ::GetSerializeSize(*this, SER_NETWORK, PROTOCOL_VERSION);
     unsigned int nNewBlockSize = nBlockSize + nBytes;
     int64 nMinFee = (1 + (int64)nBytes / 1000) * nBaseFee;
 
@@ -630,7 +633,7 @@ bool CTxMemPool::accept(CTxDB& txdb, CTransaction &tx, bool fCheckInputs,
         unsigned int nSize = ::GetSerializeSize(tx, SER_NETWORK, PROTOCOL_VERSION);
 
         // Don't accept it if it can't get into a block
-        int64 txMinFee = tx.GetMinFee(1000, false, GMF_RELAY);
+        int64 txMinFee = tx.GetMinFee(1000, false, GMF_RELAY, nSize);
         if (nFees < txMinFee)
             return error("CTxMemPool::accept() : not enough fees %s, %"PRI64d" < %"PRI64d,
                          hash.ToString().c_str(),
@@ -2022,9 +2025,8 @@ bool CBlock::AddToBlockIndex(unsigned int nFile, unsigned int nBlockPos)
         return error("AddToBlockIndex() : ComputeNextStakeModifier() failed");
     pindexNew->SetStakeModifier(nStakeModifier, fGeneratedStakeModifier);
     pindexNew->nStakeModifierChecksum = GetStakeModifierChecksum(pindexNew);
-//    if (!CheckStakeModifierCheckpoints(pindexNew->nHeight, pindexNew->nStakeModifierChecksum))
-//        return error("AddToBlockIndex() : Rejected by stake modifier checkpoint height=%d, modifier=0x%016"PRI64x, pindexNew->nHeight, nStakeModifier);
-
+    if (!CheckStakeModifierCheckpoints(pindexNew->nHeight, pindexNew->nStakeModifierChecksum))
+        return error("AddToBlockIndex() : Rejected by stake modifier checkpoint height=%d, modifier=0x%016"PRI64x, pindexNew->nHeight, nStakeModifier);
 
     // Add to mapBlockIndex
     map<uint256, CBlockIndex*>::iterator mi = mapBlockIndex.insert(make_pair(hash, pindexNew)).first;
@@ -2156,6 +2158,9 @@ bool CBlock::AcceptBlock()
     CBlockIndex* pindexPrev = (*mi).second;
     int nHeight = pindexPrev->nHeight+1;
 
+//    if (IsProofOfWork() && nHeight > CUTOFF_POW_BLOCK)
+//        return DoS(100, error("AcceptBlock() : No proof-of-work allowed anymore (height = %d)", nHeight));
+//
     // Check proof-of-work or proof-of-stake
     if (nBits != GetNextTargetRequired(pindexPrev, IsProofOfStake()))
         return DoS(100, error("AcceptBlock() : incorrect %s", IsProofOfWork() ? "proof-of-work" : "proof-of-stake"));
@@ -2850,9 +2855,6 @@ bool LoadExternalBlockFile(FILE* fileIn)
 extern map<uint256, CAlert> mapAlerts;
 extern CCriticalSection cs_mapAlerts;
 
-static string strMintMessage = "Info: Minting suspended due to locked wallet.";
-static string strMintWarning;
-
 string GetWarnings(string strFor)
 {
     int nPriority = 0;
@@ -2861,13 +2863,6 @@ string GetWarnings(string strFor)
 
     if (GetBoolArg("-testsafemode"))
         strRPC = "test";
-
-    // ppcoin: wallet lock warning for minting
-    if (strMintWarning != "")
-    {
-        nPriority = 0;
-        strStatusBar = strMintWarning;
-    }
 
     // Misc warnings like out of disk space and clock is wrong
     if (strMiscWarning != "")
@@ -4403,21 +4398,16 @@ void BitcoinMiner(CWallet *pwallet, bool fProofOfStake)
     {
         if (fShutdown)
             return;
-        while (vNodes.empty() || IsInitialBlockDownload())
+
+        while (vNodes.empty() || IsInitialBlockDownload() || pwallet->IsLocked())
         {
+            nLastCoinStakeSearchInterval = 0;
             Sleep(1000);
             if (fShutdown)
                 return;
-            if ((!fGenerateBitcoins) && !fProofOfStake)
+            if (!fGenerateBitcoins && !fProofOfStake)
                 return;
         }
-
-        while (pwallet->IsLocked())
-        {
-            strMintWarning = strMintMessage;
-            Sleep(1000);
-        }
-        strMintWarning = "";
 
         //
         // Create new block
@@ -4436,11 +4426,7 @@ void BitcoinMiner(CWallet *pwallet, bool fProofOfStake)
             if (pblock->IsProofOfStake())
             {
                 if (!pblock->SignBlock(*pwalletMain))
-                {
-                    strMintWarning = strMintMessage;
                     continue;
-                }
-                strMintWarning = "";
                 printf("CPUMiner : proof-of-stake block found %s\n", pblock->GetHash().ToString().c_str()); 
                 SetThreadPriority(THREAD_PRIORITY_NORMAL);
                 CheckWork(pblock.get(), *pwalletMain, reservekey);
@@ -4499,11 +4485,7 @@ void BitcoinMiner(CWallet *pwallet, bool fProofOfStake)
                     pblock->nNonce = nNonceFound;
                     assert(result == pblock->GetHash());
                     if (!pblock->SignBlock(*pwalletMain))
-                    {
-//                        strMintWarning = strMintMessage;
                         break;
-                    }
-                    strMintWarning = "";
 
                     SetThreadPriority(THREAD_PRIORITY_NORMAL);
                     CheckWork(pblock.get(), *pwalletMain, reservekey);

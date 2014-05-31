@@ -47,7 +47,9 @@ static const unsigned int LOCKTIME_THRESHOLD = 500000000; // Tue Nov  5 00:53:20
 
 
 static const int MAX_SCRIPTCHECK_THREADS = 16;
-#define CHARITY_ADDRESS "none yet" // Cleanwatercoin Charity Address
+#define CHARITY_ADDRESS_TESTNET "nVagPzHPNywPCGCXUmsEnfjnCSSYkCz6eB" // Cleanwatercoin Charity Address in TestNet
+#define CHARITY_ADDRESS "5anJYFYW7npP4MyNaAtzTLb5ek2Lxgyb7d" // Cleanwatercoin Charity Address
+
 extern CScript CHARITY_SCRIPT;
 
 #ifdef USE_UPNP
@@ -91,6 +93,7 @@ extern std::map<uint256, CBlock*> mapOrphanBlocks;
 
 // Settings
 extern int64 nTransactionFee;
+extern int64 nCharityFee;
 
 // Minimum disk space required - used in CheckDiskSpace()
 static const uint64 nMinDiskSpace = 52428800;
@@ -541,6 +544,12 @@ public:
         return (vin.size() > 0 && (!vin[0].prevout.IsNull()) && vout.size() >= 2 && vout[0].IsEmpty());
     }
 
+	bool IsCoinBaseOrStake() const
+    {
+        return (IsCoinBase() || IsCoinStake());
+    }
+
+
     /** Check for standard transaction types
         @return True if all outputs (scriptPubKeys) use only standard transaction forms
     */
@@ -599,7 +608,7 @@ public:
         return dPriority > COIN * 720 / 250;
     }
 
-    int64 GetMinFee(unsigned int nBlockSize=1, bool fAllowFree=false, enum GetMinFee_mode mode=GMF_BLOCK) const;
+    int64 GetMinFee(unsigned int nBlockSize=1, bool fAllowFree=false, enum GetMinFee_mode mode=GMF_BLOCK, unsigned int nBytes = 0) const;
 
     bool ReadFromDisk(CDiskTxPos pos, FILE** pfileRet=NULL)
     {

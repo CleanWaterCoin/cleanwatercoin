@@ -1,16 +1,3 @@
-BOOST_LIB_SUFFIX=-mgw46-mt-1_55
-BOOST_INCLUDE_PATH=C:/deps/boost_1_55_0
-BOOST_LIB_PATH=C:/deps/boost_1_55_0/stage/lib
-BDB_INCLUDE_PATH=C:/deps/db/build_unix
-BDB_LIB_PATH=C:/deps/db/build_unix
-OPENSSL_INCLUDE_PATH=C:/deps/ssl/include
-OPENSSL_LIB_PATH=C:/deps/ssl
-MINIUPNPC_INCLUDE_PATH=C:/deps/
-MINIUPNPC_LIB_PATH=C:/deps/miniupnpc
-
-#CONFIG += static
-win32:QMAKE_LFLAGS *= -Wl,--large-address-aware -static
-
 
 TEMPLATE = app
 TARGET = cleanwatercoin-qt
@@ -193,7 +180,8 @@ HEADERS += src/qt/bitcoingui.h \
     src/version.h \
     src/netbase.h \
     src/clientversion.h \
-    src/qt/banner.h
+    src/qt/coincontroltreewidget.h \
+    src/qt/coincontroldialog.h
 
 SOURCES += src/qt/bitcoin.cpp src/qt/bitcoingui.cpp \
     src/qt/transactiontablemodel.cpp \
@@ -259,8 +247,9 @@ SOURCES += src/qt/bitcoin.cpp src/qt/bitcoingui.cpp \
     src/scrypt-x86_64.S \
     src/scrypt_mine.cpp \
     src/pbkdf2.cpp \
-    src/qt/banner.cpp \
-    src/scrypt.cpp
+    src/scrypt.cpp \
+    src/qt/coincontroltreewidget.cpp \
+    src/qt/coincontroldialog.cpp
 
 RESOURCES += \
     src/qt/bitcoin.qrc
@@ -276,7 +265,9 @@ FORMS += \
     src/qt/forms/sendcoinsentry.ui \
     src/qt/forms/askpassphrasedialog.ui \
     src/qt/forms/rpcconsole.ui \
-    src/qt/forms/optionsdialog.ui
+    src/qt/forms/optionsdialog.ui \
+    src/qt/forms/coincontroldialog.ui \
+    src/qt/forms/formtest.ui
 
 contains(USE_QRCODE, 1) {
 HEADERS += src/qt/qrcodedialog.h

@@ -1,0 +1,4 @@
+Makefile
+cleanwater-qt
+*.user*
+!.gitignore

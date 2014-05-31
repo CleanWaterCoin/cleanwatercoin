@@ -586,6 +586,8 @@ bool CNode::IsBanned(CNetAddr ip)
     return fResult;
 }
 
+extern CMedianFilter<int> cPeerBlockCounts;
+
 bool CNode::Misbehaving(int howmuch)
 {
     if (addr.IsLocal())
@@ -605,6 +607,9 @@ bool CNode::Misbehaving(int howmuch)
                 setBanned[addr] = banTime;
         }
         CloseSocketDisconnect();
+
+        cPeerBlockCounts.removeLast(nStartingHeight); // remove this node's reported number of blocks
+
         return true;
     } else
         printf("Misbehaving: %s (%d -> %d)\n", addr.ToString().c_str(), nMisbehavior-howmuch, nMisbehavior);
@@ -1570,6 +1575,9 @@ bool OpenNetworkConnection(const CAddress& addrConnect, CSemaphoreGrant *grantOu
 
 
 
+
+
+
 void ThreadMessageHandler(void* parg)
 {
     // Make this thread recognisable as the message handling thread
@@ -1722,7 +1730,11 @@ bool BindListenPort(const CService &addrBind, string& strError)
     // and enable it by default or not. Try to enable it, if possible.
     if (addrBind.IsIPv6()) {
 #ifdef IPV6_V6ONLY
+#ifdef WIN32
+        setsockopt(hListenSocket, IPPROTO_IPV6, IPV6_V6ONLY, (const char*)&nOne, sizeof(int));
+#else
         setsockopt(hListenSocket, IPPROTO_IPV6, IPV6_V6ONLY, (void*)&nOne, sizeof(int));
+#endif
 #endif
 #ifdef WIN32
         int nProtLevel = 10 /* PROTECTION_LEVEL_UNRESTRICTED */;
@@ -1837,18 +1849,11 @@ void StartNode(void* parg)
     // Start threads
     //
 
-/*
     if (!GetBoolArg("-dnsseed", true))
         printf("DNS seeding disabled\n");
     else
         if (!NewThread(ThreadDNSAddressSeed, NULL))
             printf("Error: NewThread(ThreadDNSAddressSeed) failed\n");
-*/
-
-    if (!GetBoolArg("-dnsseed", false))
-        printf("DNS seeding disabled\n");
-    if (GetBoolArg("-dnsseed", false))
-        printf("DNS seeding NYI\n");
 
     // Map ports with UPnP
     if (fUseUPnP)
