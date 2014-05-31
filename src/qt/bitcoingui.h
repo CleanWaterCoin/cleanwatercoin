@@ -5,7 +5,7 @@
 #include <QSystemTrayIcon>
 
 #include "util.h" // for uint64
-#include "banner.h"
+//#include "banner.h"
 
 class TransactionTableModel;
 class ClientModel;
@@ -61,8 +61,8 @@ private:
     WalletModel *walletModel;
 
     QStackedWidget *centralWidget;
-    Banner *bottom;
-    QVBoxLayout *centralWidget1;
+//    Banner *bottom;
+//    QVBoxLayout *centralWidget1;
 
     OverviewPage *overviewPage;
     QWidget *transactionsPage;
