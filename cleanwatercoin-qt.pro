@@ -180,7 +180,6 @@ HEADERS += src/qt/bitcoingui.h \
     src/version.h \
     src/netbase.h \
     src/clientversion.h \
-    src/qt/banner.h \
     src/qt/coincontroltreewidget.h \
     src/qt/coincontroldialog.h
 
@@ -248,7 +247,6 @@ SOURCES += src/qt/bitcoin.cpp src/qt/bitcoingui.cpp \
     src/scrypt-x86_64.S \
     src/scrypt_mine.cpp \
     src/pbkdf2.cpp \
-    src/qt/banner.cpp \
     src/scrypt.cpp \
     src/qt/coincontroltreewidget.cpp \
     src/qt/coincontroldialog.cpp
