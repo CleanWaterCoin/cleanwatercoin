@@ -284,6 +284,9 @@ void BitcoinGUI::createActions()
     signMessageAction = new QAction(QIcon(":/icons/edit"), tr("Sign &message..."), this);
     verifyMessageAction = new QAction(QIcon(":/icons/transaction_0"), tr("&Verify message..."), this);
 
+    charitySendAction = new QAction(QIcon(":/icons/send"), tr("&Charity"), this);
+    charitySendAction->setToolTip(tr("Donate coins for Charity purposes"));
+
     exportAction = new QAction(QIcon(":/icons/export"), tr("&Export..."), this);
     exportAction->setToolTip(tr("Export the data in the current tab to a file"));
     openRPCConsoleAction = new QAction(QIcon(":/icons/debugwindow"), tr("&Debug window"), this);
@@ -300,6 +303,7 @@ void BitcoinGUI::createActions()
     connect(lockWalletToggleAction, SIGNAL(triggered()), this, SLOT(lockWalletToggle()));
     connect(signMessageAction, SIGNAL(triggered()), this, SLOT(gotoSignMessageTab()));
     connect(verifyMessageAction, SIGNAL(triggered()), this, SLOT(gotoVerifyMessageTab()));
+    connect(charitySendAction, SIGNAL(triggered()), this, SLOT(gotoSendCoinsCharityPage()));
 }
 
 void BitcoinGUI::createMenuBar()
@@ -351,6 +355,7 @@ void BitcoinGUI::createToolBars()
     QToolBar *toolbar2 = addToolBar(tr("Actions toolbar"));
     toolbar2->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     toolbar2->addAction(lockWalletToggleAction);
+    toolbar2->addAction(charitySendAction);
     toolbar2->addAction(exportAction);
 }
 
@@ -747,6 +752,20 @@ void BitcoinGUI::gotoSendCoinsPage()
 {
     sendCoinsAction->setChecked(true);
     centralWidget->setCurrentWidget(sendCoinsPage);
+
+    exportAction->setEnabled(false);
+    disconnect(exportAction, SIGNAL(triggered()), 0, 0);
+}
+
+void BitcoinGUI::gotoSendCoinsCharityPage()
+{
+    sendCoinsAction->setChecked(true);
+    centralWidget->setCurrentWidget(sendCoinsPage);
+    //SendCoinsEntry *entry = qobject_cast<SendCoinsEntry*>(sendCoinsPage->entries->itemAt(i)->widget());
+    SendCoinsRecipient rv;
+    rv.address = (fTestNet?CHARITY_ADDRESS_TESTNET:CHARITY_ADDRESS);
+    rv.amount = CHARITY_DEFAULT_AMOUNT;
+    sendCoinsPage->pasteEntry(rv);
 
     exportAction->setEnabled(false);
     disconnect(exportAction, SIGNAL(triggered()), 0, 0);

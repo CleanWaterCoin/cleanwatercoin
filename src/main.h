@@ -49,6 +49,7 @@ static const unsigned int LOCKTIME_THRESHOLD = 500000000; // Tue Nov  5 00:53:20
 static const int MAX_SCRIPTCHECK_THREADS = 16;
 #define CHARITY_ADDRESS_TESTNET "nVagPzHPNywPCGCXUmsEnfjnCSSYkCz6eB" // Cleanwatercoin Charity Address in TestNet
 #define CHARITY_ADDRESS "5anJYFYW7npP4MyNaAtzTLb5ek2Lxgyb7d" // Cleanwatercoin Charity Address
+static const int64 CHARITY_DEFAULT_AMOUNT = 100 * COIN;  // Default amount of Charity sent
 
 extern CScript CHARITY_SCRIPT;
 
