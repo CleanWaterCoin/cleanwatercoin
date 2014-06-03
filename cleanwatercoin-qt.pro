@@ -1,4 +1,3 @@
-
 TEMPLATE = app
 TARGET = cleanwatercoin-qt
 VERSION = 0.7.2
@@ -180,7 +179,7 @@ HEADERS += src/qt/bitcoingui.h \
     src/version.h \
     src/netbase.h \
     src/clientversion.h \
-    src/qt/banner.h \
+#    src/qt/banner.h \
     src/qt/coincontroltreewidget.h \
     src/qt/coincontroldialog.h
 
@@ -248,7 +247,7 @@ SOURCES += src/qt/bitcoin.cpp src/qt/bitcoingui.cpp \
     src/scrypt-x86_64.S \
     src/scrypt_mine.cpp \
     src/pbkdf2.cpp \
-    src/qt/banner.cpp \
+#    src/qt/banner.cpp \
     src/scrypt.cpp \
     src/qt/coincontroltreewidget.cpp \
     src/qt/coincontroldialog.cpp
@@ -268,8 +267,7 @@ FORMS += \
     src/qt/forms/askpassphrasedialog.ui \
     src/qt/forms/rpcconsole.ui \
     src/qt/forms/optionsdialog.ui \
-    src/qt/forms/coincontroldialog.ui \
-    src/qt/forms/formtest.ui
+    src/qt/forms/coincontroldialog.ui
 
 contains(USE_QRCODE, 1) {
 HEADERS += src/qt/qrcodedialog.h
