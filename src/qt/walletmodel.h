@@ -78,10 +78,12 @@ public:
     {
         SendCoinsReturn(StatusCode status=Aborted,
                          qint64 fee=0,
+                         qint64 charityfee=0,
                          QString hex=QString()):
-            status(status), fee(fee), hex(hex) {}
+            status(status), fee(fee), charityfee(charityfee), hex(hex) {}
         StatusCode status;
         qint64 fee; // is used in case status is "AmountWithFeeExceedsBalance"
+        qint64 charityfee; // is used in case status is "AmountWithFeeExceedsBalance"
         QString hex; // is filled with the transaction hash if status is "OK"
     };
 
