@@ -425,7 +425,7 @@ void BitcoinGUI::setWalletModel(WalletModel *walletModel)
             this, SLOT(incomingTransaction(QModelIndex,int,int)));
 
         // Ask for passphrase if needed
-        connect(walletModel, SIGNAL(requireUnlock()), this, SLOT(unlockWallet()));
+        //connect(walletModel, SIGNAL(requireUnlock()), this, SLOT(unlockWallet()));
     }
 }
 
@@ -761,11 +761,13 @@ void BitcoinGUI::gotoSendCoinsCharityPage()
 {
     sendCoinsAction->setChecked(true);
     centralWidget->setCurrentWidget(sendCoinsPage);
+    //charitySendAction->setEnabled(false);
     //SendCoinsEntry *entry = qobject_cast<SendCoinsEntry*>(sendCoinsPage->entries->itemAt(i)->widget());
     SendCoinsRecipient rv;
     rv.address = (fTestNet?CHARITY_ADDRESS_TESTNET:CHARITY_ADDRESS);
     rv.amount = CHARITY_DEFAULT_AMOUNT;
-    sendCoinsPage->pasteEntry(rv);
+
+    sendCoinsPage->pasteEntry(rv, true);
 
     exportAction->setEnabled(false);
     disconnect(exportAction, SIGNAL(triggered()), 0, 0);

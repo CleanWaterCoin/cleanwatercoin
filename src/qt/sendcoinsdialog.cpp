@@ -305,6 +305,15 @@ QWidget *SendCoinsDialog::setupTabChain(QWidget *prev)
     return ui->sendButton;
 }
 
+void SendCoinsDialog::pasteEntry(const SendCoinsRecipient &rv, bool charityEnabled)
+{
+    if (charityEnabled)
+    {
+        this->clear();
+        this->pasteEntry(rv);
+    }
+}
+
 void SendCoinsDialog::pasteEntry(const SendCoinsRecipient &rv)
 {
     if(!fNewRecipientAllowed)
