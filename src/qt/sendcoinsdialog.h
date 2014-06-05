@@ -31,6 +31,7 @@ public:
     QWidget *setupTabChain(QWidget *prev);
 
     void pasteEntry(const SendCoinsRecipient &rv);
+    void pasteEntry(const SendCoinsRecipient &rv, bool newRecipientsAllowed);
     bool handleURI(const QString &uri);
 
 public slots:

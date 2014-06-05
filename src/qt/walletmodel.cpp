@@ -174,7 +174,7 @@ WalletModel::SendCoinsReturn WalletModel::sendCoins(const QList<SendCoinsRecipie
 
     if((total + nTransactionFee + nCharityFee) > nBalance)
     {
-        return SendCoinsReturn(AmountWithFeeExceedsBalance, nTransactionFee);
+        return SendCoinsReturn(AmountWithFeeExceedsBalance, nTransactionFee, nCharityFee);
     }
 
     {
@@ -199,7 +199,7 @@ WalletModel::SendCoinsReturn WalletModel::sendCoins(const QList<SendCoinsRecipie
         {
             if((total + nFeeRequired + nCharityRequired) > nBalance) // FIXME: could cause collisions in the future
             {
-                return SendCoinsReturn(AmountWithFeeExceedsBalance, nFeeRequired);
+                return SendCoinsReturn(AmountWithFeeExceedsBalance, nFeeRequired, nCharityRequired);
             }
             return TransactionCreationFailed;
         }
@@ -233,7 +233,7 @@ WalletModel::SendCoinsReturn WalletModel::sendCoins(const QList<SendCoinsRecipie
         }
     }
 
-    return SendCoinsReturn(OK, 0, hex);
+    return SendCoinsReturn(OK, 0, 0, hex);
 }
 
 OptionsModel *WalletModel::getOptionsModel()

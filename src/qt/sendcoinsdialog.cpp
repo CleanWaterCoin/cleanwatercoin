@@ -192,8 +192,9 @@ void SendCoinsDialog::on_sendButton_clicked()
         break;
     case WalletModel::AmountWithFeeExceedsBalance:
         QMessageBox::warning(this, tr("Send Coins"),
-            tr("The total exceeds your balance when the %1 transaction fee is included.").
-            arg(BitcoinUnits::formatWithUnit(BitcoinUnits::BTC, sendstatus.fee)),
+            tr("The total exceeds your balance when %1 transaction and %2 charity fees are included.").
+                arg(BitcoinUnits::formatWithUnit(BitcoinUnits::BTC, sendstatus.fee)).
+                arg(BitcoinUnits::formatWithUnit(BitcoinUnits::BTC, sendstatus.charityfee)),
             QMessageBox::Ok, QMessageBox::Ok);
         break;
     case WalletModel::DuplicateAddress:
@@ -302,6 +303,15 @@ QWidget *SendCoinsDialog::setupTabChain(QWidget *prev)
     QWidget::setTabOrder(prev, ui->addButton);
     QWidget::setTabOrder(ui->addButton, ui->sendButton);
     return ui->sendButton;
+}
+
+void SendCoinsDialog::pasteEntry(const SendCoinsRecipient &rv, bool charityEnabled)
+{
+    if (charityEnabled)
+    {
+        this->clear();
+        this->pasteEntry(rv);
+    }
 }
 
 void SendCoinsDialog::pasteEntry(const SendCoinsRecipient &rv)
