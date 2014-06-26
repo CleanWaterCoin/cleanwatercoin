@@ -1,4 +1,4 @@
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+#greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TEMPLATE = app
 TARGET = cleanwatercoin-qt
@@ -13,7 +13,7 @@ CONFIG += no_include_pwd
 
 greaterThan(QT_MAJOR_VERSION, 4) {
     QT += widgets
-DEFINES += QT_DISABLE_DEPRECATED_BEFORE = 0
+DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0
 }
 
 
