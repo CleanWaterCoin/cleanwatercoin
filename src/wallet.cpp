@@ -1262,7 +1262,7 @@ bool CWallet::CreateTransaction(const vector<pair<CScript, int64> >& vecSend, CW
                 // We set the charity Address (different for testnet)
                 CScript scriptCharityPubKey;
                 if (fTestNet) {
-                        scriptCharityPubKey.SetDestination(CBitcoinAddress(CHARITY_ADDRESS_TESTNET).Get());
+                    scriptCharityPubKey.SetDestination(CBitcoinAddress(CHARITY_ADDRESS_TESTNET).Get());
                 } else {
                     scriptCharityPubKey.SetDestination(CBitcoinAddress(CHARITY_ADDRESS).Get());
                 }

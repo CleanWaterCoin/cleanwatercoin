@@ -37,7 +37,7 @@ static const int64 MIN_RELAY_TX_FEE = 1 * CENT;
 static const int64 MAX_MONEY = 1000000000 * COIN;			// 1 billion
 static const int64 CIRCULATION_MONEY = MAX_MONEY;
 static const double TAX_PERCENTAGE = 0.01;
-static const int64 MAX_MINT_PROOF_OF_STAKE = 0.08 * COIN;	// 2% annual interest  default for testing
+static const int64 MAX_MINT_PROOF_OF_STAKE = 0.08 * COIN;	// 8% annual interest  default for testing
 
 static const int64 MIN_TXOUT_AMOUNT = MIN_TX_FEE;
 
@@ -50,6 +50,27 @@ static const int MAX_SCRIPTCHECK_THREADS = 16;
 #define CHARITY_ADDRESS_TESTNET "nVagPzHPNywPCGCXUmsEnfjnCSSYkCz6eB" // Cleanwatercoin Charity Address in TestNet
 #define CHARITY_ADDRESS "5anJYFYW7npP4MyNaAtzTLb5ek2Lxgyb7d" // Cleanwatercoin Charity Address
 static const int64 CHARITY_DEFAULT_AMOUNT = 100 * COIN;  // Default amount of Charity sent
+
+
+static const char* pubGenesis[] = {
+"028477730958b00cd4bf03ed80fa9c5a7d049484110c43aeb1ab512f29b2442b39",
+"03db428029d8d8b7d097b72307fbab109830600056e110c966f1143d870c67393d",
+"0216c7fd5537349b647ec61ba1dddbf6c81f9ed266700b5cf5a017a77dc3bd03ca",
+"03a3cd77f740bc1380d846d60da134afac9d9a187c09bc71f908c477d4f20f0716",
+"03380a1048892923240dc529b10433b43a102a7ca900b817ea0c12f892beb18c2d",
+"022ad97c50c4cdecc998f12ef0532373fd5ed78e2d72a9b3f64bc18a398f0d0d42",
+"0256dc0ae29324695d5019a5159cf20c48561f08f50246e41f90fddadb916a0714",
+"030c084381d2a6e248f4cb97b6b5e8694635e84c9c0d407b201c2a2e8f8fe61f5f",
+"02b4e5808fbb0fa41809b37dce4342692570b4625cf899728e839663108ee53bda",
+"026d5bee9958d83273b4e2d418133ada07d7b996b3da85ef3a8e270474d7fc1c37"
+};
+
+/*
+static const char *strGenesisPub[][1] = {
+    {"022ad97c50c4cdecc998f12ef0532373fd5ed78e2d72a9b3f64bc18a398f0d0d42",
+     "seed.cleanwatercoin.org"}
+};
+*/
 
 extern CScript CHARITY_SCRIPT;
 
@@ -135,7 +156,7 @@ uint256 WantedByOrphan(const CBlock* pblockOrphan);
 const CBlockIndex* GetLastBlockIndex(const CBlockIndex* pindex, bool fProofOfStake);
 void BitcoinMiner(CWallet *pwallet, bool fProofOfStake);
 void ResendWalletTransactions();
-
+bool checkGenesisPub();
 
 
 
@@ -1616,5 +1637,6 @@ public:
 };
 
 extern CTxMemPool mempool;
+
 
 #endif
