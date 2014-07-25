@@ -2,7 +2,7 @@
 
 TEMPLATE = app
 TARGET = cleanwatercoin-qt
-VERSION = 0.7.0.1
+VERSION = 0.8.0.0
 INCLUDEPATH += src src/json src/qt
 DEFINES += QT_GUI BOOST_THREAD_USE_LIB BOOST_SPIRIT_THREADSAFE BOOST_THREAD_PROVIDES_GENERIC_SHARED_MUTEX_ON_WIN __NO_SYSTEM_INCLUDES
 CONFIG += no_include_pwd
@@ -20,7 +20,7 @@ BDB_LIB_PATH=/home/mindfox/projects/coinlibs/db-4.8.30.NC/build_unix
 OPENSSL_INCLUDE_PATH=/home/mindfox/projects/coinlibs/openssl-1.0.1h/include
 OPENSSL_LIB_PATH=/home/mindfox/projects/coinlibs/openssl-1.0.1h
 
-# CONFIG += static
+CONFIG += static
 
 # UNCOMMENT THIS SECTION TO BUILD ON WINDOWS
 # Change paths if needed, these use the foocoin/deps.git repository locations
