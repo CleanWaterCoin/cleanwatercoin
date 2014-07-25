@@ -37,7 +37,7 @@ static const int64 MIN_RELAY_TX_FEE = 1 * CENT;
 static const int64 MAX_MONEY = 1000000000 * COIN;			// 1 billion
 static const int64 CIRCULATION_MONEY = MAX_MONEY;
 static const double TAX_PERCENTAGE = 0.01;
-static const int64 MAX_MINT_PROOF_OF_STAKE = 0.08 * COIN;	// 8% annual interest  default for testing
+static const int64 MAX_MINT_PROOF_OF_STAKE = 0.48 * COIN;	// 8% annual interest  default for testing
 
 static const int64 MIN_TXOUT_AMOUNT = MIN_TX_FEE;
 
