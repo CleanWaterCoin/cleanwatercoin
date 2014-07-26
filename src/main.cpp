@@ -970,7 +970,7 @@ int generateMTRandom(unsigned int s, int range)
 
 static const int64 nMiyy = 1 * COIN;
 static const int CUTOFF_HEIGHT = 1000000000;	// Temp max height. May need to be forked based on varied reward system
-static const int CUTOFF_POW_BLOCK = 115000;       // at 114,000 Blockheight, PoW stops being accepted. Cleanwatercoin turns into a pure PoS coin.
+static const int CUTOFF_POW_BLOCK = 116000;       // at 116,000 Blockheight, PoW stops being accepted. Cleanwatercoin turns into a pure PoS coin.
 
 // miner's coin base reward based on nBits
 int64 GetProofOfWorkReward(int nHeight, int64 nFees, uint256 prevHash)
