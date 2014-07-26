@@ -2104,12 +2104,16 @@ bool CBlock::CheckBlock(bool fCheckPOW, bool fCheckMerkleRoot) const
     if (fCheckPOW && IsProofOfWork() && !CheckProofOfWork(GetHash(), nBits))
         return DoS(50, error("CheckBlock() : proof of work failed"));
 
-    // Check timestamp
-    int64 nntime = GetBlockTime();
-    int64 nnadjtime = GetAdjustedTime();
-    int64 nndtime = nnadjtime + nMaxClockDrift;
+    if (fDebug)
+    {
+        // Check timestamp
+        int64 nntime = GetBlockTime();
+        int64 nnadjtime = GetAdjustedTime();
+        int64 nndtime = nnadjtime + nMaxClockDrift;
 
-    printf("getblocktime: %lld, and it should be less than %lld", GetBlockTime(), GetAdjustedTime() + nMaxClockDrift);
+        printf("getblocktime actual: %lld, expected: %lld", GetBlockTime(), GetAdjustedTime() + nMaxClockDrift);
+    }
+
     if (GetBlockTime() > GetAdjustedTime() + nMaxClockDrift)
         return error("CheckBlock() : block timestamp too far in the future");
 
