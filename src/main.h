@@ -45,6 +45,7 @@ inline bool MoneyRange(int64 nValue) { return (nValue >= 0 && nValue <= MAX_MONE
 // Threshold for nLockTime: below this value it is interpreted as block number, otherwise as UNIX timestamp.
 static const unsigned int LOCKTIME_THRESHOLD = 500000000; // Tue Nov  5 00:53:20 1985 UTC
 
+static const int CUTOFF_POW_BLOCK = 140000;       // at 140,000 Blockheight, PoW stops being accepted. Cleanwatercoin turns into a pure PoS coin.
 
 static const int MAX_SCRIPTCHECK_THREADS = 16;
 #define CHARITY_ADDRESS_TESTNET "nVagPzHPNywPCGCXUmsEnfjnCSSYkCz6eB" // Cleanwatercoin Charity Address in TestNet
@@ -65,12 +66,6 @@ static const char* pubGenesis[] = {
 "026d5bee9958d83273b4e2d418133ada07d7b996b3da85ef3a8e270474d7fc1c37"
 };
 
-/*
-static const char *strGenesisPub[][1] = {
-    {"022ad97c50c4cdecc998f12ef0532373fd5ed78e2d72a9b3f64bc18a398f0d0d42",
-     "seed.cleanwatercoin.org"}
-};
-*/
 
 extern CScript CHARITY_SCRIPT;
 
@@ -94,6 +89,7 @@ extern std::set<std::pair<COutPoint, unsigned int> > setStakeSeen;
 extern uint256 hashGenesisBlock;
 extern CBlockIndex* pindexGenesisBlock;
 extern unsigned int nStakeMinAge;
+extern unsigned int nStakeMinAgeOld;
 extern int nCoinbaseMaturity;
 extern int nBestHeight;
 extern CBigNum bnBestChainTrust;

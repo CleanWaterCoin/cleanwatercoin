@@ -384,7 +384,7 @@
         <number>14</number>
        </property>
        <item>
-        <widget class="QPushButton" name="pushButtonSelectAll">
+        <widget class="QToolButton" name="toolButtonSelectAll">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
            <horstretch>0</horstretch>

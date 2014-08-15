@@ -41,6 +41,17 @@
         <file alias="filesave">res/icons/filesave.png</file>
         <file alias="qrcode">res/icons/qrcode.png</file>
         <file alias="debugwindow">res/icons/debugwindow.png</file>
+        <file alias="cwc-icon">res/icons/cwc-icon.png</file>
+        <file alias="cwc-icon-addresses">res/icons/cwc-icon-addresses.png</file>
+        <file alias="cwc-icon-get-big">res/icons/cwc-icon-get-big.png</file>
+        <file alias="cwc-icon-get-small">res/icons/cwc-icon-get-small.png</file>
+        <file alias="cwc-icon-give-big">res/icons/cwc-icon-give-big.png</file>
+        <file alias="cwc-icon-give-small">res/icons/cwc-icon-give-small.png</file>
+        <file alias="cwc-icon-overview">res/icons/cwc-icon-overview.png</file>
+        <file alias="cwc-icon-send-big">res/icons/cwc-icon-send-big.png</file>
+        <file alias="cwc-icon-send-small">res/icons/cwc-icon-send-small.png</file>
+        <file alias="cwc-icon-stake-small">res/icons/cwc-icon-stake-small.png</file>
+        <file alias="cwc-icon-transactions">res/icons/cwc-icon-transactions.png</file>
     </qresource>
     <qresource prefix="/images">
         <file alias="about">res/images/about.png</file>

@@ -7,6 +7,8 @@
 #include "util.h" // for uint64
 //#include "banner.h"
 
+class StyleSheetEditor;
+
 class TransactionTableModel;
 class ClientModel;
 class WalletModel;
@@ -61,6 +63,7 @@ private:
     WalletModel *walletModel;
 
     QStackedWidget *centralWidget;
+    StyleSheetEditor *styleSheetEditor;
 //    Banner *bottom;
 //    QVBoxLayout *centralWidget1;
 
@@ -98,6 +101,7 @@ private:
     QAction *lockWalletToggleAction;
     QAction *aboutQtAction;
     QAction *openRPCConsoleAction;
+    QAction *editStyleSheetAction;
 
     QSystemTrayIcon *trayIcon;
     Notificator *notificator;
@@ -193,6 +197,9 @@ private slots:
     void updateMintingIcon();
     /** Update minting weight info */
     void updateMintingWeights();
+
+
+    void editStyleSheetClick();
 };
 
 #endif

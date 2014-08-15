@@ -45,7 +45,8 @@ static CBigNum bnProofOfStakeLimit(~uint256(0) >> 20);
 static CBigNum bnProofOfWorkLimitTestNet(~uint256(0) >> 20);
 static CBigNum bnProofOfStakeLimitTestNet(~uint256(0) >> 20);
 
-unsigned int nStakeMinAge = 60 * 60 * 24 * 1;	// minimum age for coin age: 1d
+unsigned int nStakeMinAge = 60 * 60 * 24 * 1;	// After height 120,000 minimum age for coin age: 1d
+unsigned int nStakeMinAgeOld = 60 * 60 * 24 * 20;	// Before height 120,000 minimum age for coin age: 20d
 unsigned int nStakeMaxAge = 60 * 60 * 24 * 90;	// stake age of full weight: 90d
 unsigned int nStakeTargetSpacing = 120;			// 120 sec block spacing
 
@@ -970,7 +971,7 @@ int generateMTRandom(unsigned int s, int range)
 
 static const int64 nMiyy = 1 * COIN;
 static const int CUTOFF_HEIGHT = 1000000000;	// Temp max height. May need to be forked based on varied reward system
-static const int CUTOFF_POW_BLOCK = 116000;       // at 116,000 Blockheight, PoW stops being accepted. Cleanwatercoin turns into a pure PoS coin.
+
 
 // miner's coin base reward based on nBits
 int64 GetProofOfWorkReward(int nHeight, int64 nFees, uint256 prevHash)
@@ -1974,6 +1975,7 @@ bool CTransaction::GetCoinAge(CTxDB& txdb, uint64& nCoinAge) const
         CBlock block;
         if (!block.ReadFromDisk(txindex.pos.nFile, txindex.pos.nBlockPos, false))
             return false; // unable to read block of previous transaction
+
         if (block.GetBlockTime() + nStakeMinAge > nTime)
             continue; // only count coins meeting min age requirement
 
