@@ -103,26 +103,26 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
                 "QComboBox:!editable:on, QComboBox::drop-down:editable:on  { background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #D3D3D3, stop: 0.4 #D8D8D8, stop: 0.5 #DDDDDD, stop: 1.0 #E1E1E1); } " \
                 "QComboBox:on  { /* shift the text when the popup opens */ padding-top: 3px; padding-left: 4px; } " \
                 "QComboBox::drop-down  { subcontrol-origin: padding; subcontrol-position: top right; width: 15px; border-left-width: 1px; border-left-color: darkgray; border-left-style: solid; /* just a single line */ border-top-right-radius: 3px; /* same radius as the QComboBox */ border-bottom-right-radius: 3px; } " \
-                "QComboBox::down-arrow1  { image: url(/usr/share/icons/crystalsvg/16x16/actions/1downarrow.png); } " \
+                "QComboBox::down-arrow1  { image: url(:/icons/1downarrow.png); } " \
                 "QComboBox::down-arrow:on  { /* shift the arrow when popup is open */ top: 1px; left: 1px; }" \
-                "QLineEdit { border: 0px; border-radius1: 10px; padding: 0 8px; background: #c7c8ca; selection-background-color: #00ccff; margin: 6px; }" \
+                "QLineEdit { border: 1px solid #cccccc; border-radius: 4px; padding: 0px 4px; background: white; selection-background-color: #333333; color: 333333; margin: 6px; }" \
                 "QLabel { color: #404041; font-family:Open Sans; } " \
-                "QTableView { selection-background-color: #00ccff; background: #c7c8ca; border-color: #e8e8e8; margin: 6px; } " \
+                "QTableView { selection-background-color: #00ccff; background-color: #c7c8ca; border-color: #e8e8e8; margin: 6px; } " \
                 "QTableView1 QHeaderView { } " \
                 "QTableView1 QAbstractItemView { margin: 4px; min-height: 28px; border: 3px; } " \
                 "QStatusBar { background: #a7aaac; } " \
                     "#frame { } QToolBar QLabel { padding-top:15px;padding-bottom:10px;margin:0px; border: 0px; border-color: yellow;} " \
-                "#frameBlocks { border: none; } " \
+                "#frameBlocks { border: 0px transparent; } " \
                 "#frameTop { background-color: #ffffff; border: 2px solid #cccccc; border-top-width: 0px; border-left-width: 0px; border-right-width: 0px; } " \
-                "#labelBalance { color: #333333 ; } " \
-                "#labelStake { color: #333333 ; } " \
-                "#labelUnconfirmed { color: #333333 ; } " \
-                "#labelImmature { color: #333333 ; } " \
+                "#labelBalance, #labelStake, #labelUnconfirmed, #labelImmature { color: #333333 ; } " \
+                "#labelStake1 { color: #333333 ; } " \
+                "#labelUnconfirmed1 { color: #333333 ; } " \
+                "#labelImmature1 { color: #333333 ; } " \
                 "#listTransactions { background-color: #ffffff; border: 2px solid #cccccc; border-top-width: 0px; border-left-width: 0px; border-right-width: 0px; } " \
                 "#listTransactions::item { background-color: #ffffff; } " \
                 "#frame2 { background-color: #ffffff; } " \
                     "#spacer { background:#a7aaac;border:none; } " \
-                "QToolBar#toolbar2 { background-color: #00ccff; width: 80px; min-height: 80px; max-height: 80px; border: none; margin: -4px; padding: -4px; } " \
+                "QToolBar#toolbar2 { background-color: #00ccff; width: 72px; min-height: 80px; max-height: 80px; border: none; margin: -4px; padding: -4px; } " \
                 "QToolBar#toolbar2 QToolButton { background-color: #00ccff; height1: 100%; width: 80px; icon-size1: 72px; } " \
                 "QToolBar#toolbar2 QToolButton:disabled { background-color: #00ccff; height: 100%; } " \
                 "QToolBar#toolbar { min-height: 80px; max-height: 80px; padding1-top:0px; background: #1d1d1d; max-width:1200px; border: none; margin: -4px; padding: -4px; } " \
@@ -131,8 +131,8 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
                 "QToolBar#toolbar QToolButton:pressed { color: #00ccff; background-color: #333333; border: none; } " \
                 "QToolBar#toolbar QToolButton:checked { color: #00ccff; background-color: #333333; border: none; } " \
                 "QToolBar#toolbar QToolButton:disabled { color: grey font-family:Open Sans; } " \
+                "* QToolButton { min-height: 22px; background-color: #333333; border: 1px solid #cccccc; color: white; } " \
                     "#labelMiningIcon { padding-left:5px;font-family:Open Sans;width:100%;font-size:10px;text-align:center;color:grey; } " \
-                "QToolButton { background-color: #00ccff; border: none; } " \
                 "QMenu { background: #a7aaac; color: #404041; padding-bottom:10px; border: 1px solid grey; } " \
                 "QMenu::item { color:#404041; background-color: transparent; } " \
                 "QMenu::item:selected { color: #282828; background-color: #e8e8e8; } " \
@@ -404,8 +404,8 @@ void BitcoinGUI::createMenuBar()
     file->addAction(signMessageAction);
     file->addAction(verifyMessageAction);
     file->addSeparator();
-    file->addAction(editStyleSheetAction);
-    file->addSeparator();
+//    file->addAction(editStyleSheetAction);
+//    file->addSeparator();
     file->addAction(quitAction);
 
     QMenu *settings = appMenuBar->addMenu(tr("&Settings"));

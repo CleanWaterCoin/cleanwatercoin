@@ -44,7 +44,7 @@ SendCoinsDialog::SendCoinsDialog(QWidget *parent) :
 	
 	    // Coin Control
      ui->lineEditCoinControlChange->setFont(GUIUtil::bitcoinAddressFont());
-     connect(ui->pushButtonCoinControl, SIGNAL(clicked()), this, SLOT(coinControlButtonClicked()));
+     connect(ui->toolButtonCoinControl, SIGNAL(clicked()), this, SLOT(coinControlButtonClicked()));
      connect(ui->checkBoxCoinControlChange, SIGNAL(stateChanged(int)), this, SLOT(coinControlChangeChecked(int)));
      connect(ui->lineEditCoinControlChange, SIGNAL(textEdited(const QString &)), this, SLOT(coinControlChangeEdited(const QString &)));
  
@@ -234,7 +234,7 @@ void SendCoinsDialog::clear()
 
     updateRemoveEnabled();
 
-    ui->sendButton->setDefault(true);
+    //ui->sendButton->setDefault(true);
 }
 
 void SendCoinsDialog::reject()
