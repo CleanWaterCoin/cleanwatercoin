@@ -122,16 +122,16 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
                 "#listTransactions::item { background-color: #ffffff; } " \
                 "#frame2 { background-color: #ffffff; } " \
                     "#spacer { background:#a7aaac;border:none; } " \
-                "QToolBar#toolbar2 { background-color: #00ccff; width: 72px; min-height: 80px; max-height: 80px; border: none; margin: -4px; padding: -4px; } " \
-                "QToolBar#toolbar2 QToolButton { background-color: #00ccff; height1: 100%; width: 80px; icon-size1: 72px; } " \
+                "* QToolButton21 { min-height: 22px; background-color: #333333; border: 1px solid #cccccc; color: white; } " \
+                "QToolBar#toolbar2 { background-color: #00ccff; width: 72px; min-height: 80px; max-height: 80px; border: 0px; margin: -4px; padding: -4px; } " \
+                "QToolBar#toolbar2 QToolButton { background-color: #00ccff; height1: 100%; width: 72px; icon-size1: 72px; } " \
                 "QToolBar#toolbar2 QToolButton:disabled { background-color: #00ccff; height: 100%; } " \
                 "QToolBar#toolbar { min-height: 80px; max-height: 80px; padding1-top:0px; background: #1d1d1d; max-width:1200px; border: none; margin: -4px; padding: -4px; } " \
-                "QToolBar#toolbar QToolButton { border: none; font-size:10px; height: 100%; font-family:Open Sans;padding-top:10px;padding1-bottom:10px; width:80px; color: #00ccff; text-align1: left; background-color: #1d1d1d } " \
+                "QToolBar#toolbar QToolButton { color: #00ccff; border: none; font-size:10px; height: 100%; font-family:Open Sans;padding-top:10px; width:72px; background-color: #1d1d1d } " \
                 "QToolBar#toolbar QToolButton:hover:!checked { color: #00ccff; background-color: #ffffff; border: none; } " \
                 "QToolBar#toolbar QToolButton:pressed { color: #00ccff; background-color: #333333; border: none; } " \
                 "QToolBar#toolbar QToolButton:checked { color: #00ccff; background-color: #333333; border: none; } " \
                 "QToolBar#toolbar QToolButton:disabled { color: grey font-family:Open Sans; } " \
-                "* QToolButton { min-height: 22px; background-color: #333333; border: 1px solid #cccccc; color: white; } " \
                     "#labelMiningIcon { padding-left:5px;font-family:Open Sans;width:100%;font-size:10px;text-align:center;color:grey; } " \
                 "QMenu { background: #a7aaac; color: #404041; padding-bottom:10px; border: 1px solid grey; } " \
                 "QMenu::item { color:#404041; background-color: transparent; } " \
