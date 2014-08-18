@@ -45,7 +45,7 @@ inline bool MoneyRange(int64 nValue) { return (nValue >= 0 && nValue <= MAX_MONE
 // Threshold for nLockTime: below this value it is interpreted as block number, otherwise as UNIX timestamp.
 static const unsigned int LOCKTIME_THRESHOLD = 500000000; // Tue Nov  5 00:53:20 1985 UTC
 
-static const int CUTOFF_POW_BLOCK = 140000;       // at 140,000 Blockheight, PoW stops being accepted. Cleanwatercoin turns into a pure PoS coin.
+static const int CUTOFF_POW_BLOCK = 150000;       // at 150,000 Blockheight, PoW stops being accepted. Cleanwatercoin turns into a pure PoS coin.
 
 static const int MAX_SCRIPTCHECK_THREADS = 16;
 #define CHARITY_ADDRESS_TESTNET "nVagPzHPNywPCGCXUmsEnfjnCSSYkCz6eB" // Cleanwatercoin Charity Address in TestNet
