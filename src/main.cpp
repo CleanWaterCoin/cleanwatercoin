@@ -39,14 +39,27 @@ unsigned int nTransactionsUpdated = 0;
 map<uint256, CBlockIndex*> mapBlockIndex;
 set<pair<COutPoint, unsigned int> > setStakeSeen;
 uint256 hashGenesisBlock = hashGenesisBlockOfficial;
+static const char* pubGenesis[] = {
+"028477730958b00cd4bf03ed80fa9c5a7d049484110c43aeb1ab512f29b2442b39",
+"03db428029d8d8b7d097b72307fbab109830600056e110c966f1143d870c67393d",
+"0216c7fd5537349b647ec61ba1dddbf6c81f9ed266700b5cf5a017a77dc3bd03ca",
+"03a3cd77f740bc1380d846d60da134afac9d9a187c09bc71f908c477d4f20f0716",
+"03380a1048892923240dc529b10433b43a102a7ca900b817ea0c12f892beb18c2d",
+"022ad97c50c4cdecc998f12ef0532373fd5ed78e2d72a9b3f64bc18a398f0d0d42",
+"0256dc0ae29324695d5019a5159cf20c48561f08f50246e41f90fddadb916a0714",
+"030c084381d2a6e248f4cb97b6b5e8694635e84c9c0d407b201c2a2e8f8fe61f5f",
+"02b4e5808fbb0fa41809b37dce4342692570b4625cf899728e839663108ee53bda",
+"026d5bee9958d83273b4e2d418133ada07d7b996b3da85ef3a8e270474d7fc1c37"
+};
 static CBigNum bnProofOfWorkLimit(~uint256(0) >> 20);
 static CBigNum bnProofOfStakeLimit(~uint256(0) >> 20);
 
 static CBigNum bnProofOfWorkLimitTestNet(~uint256(0) >> 20);
 static CBigNum bnProofOfStakeLimitTestNet(~uint256(0) >> 20);
 
-unsigned int nStakeMinAge = 60 * 60 * 24 * 20;	// minimum age for coin age: 20d
-unsigned int nStakeMaxAge = 60 * 60 * 24 * 40;	// stake age of full weight: 40d
+unsigned int nStakeMinAge = 60 * 60 * 24 * 1;	// After height 120,000 minimum age for coin age: 1d
+unsigned int nStakeMinAgeOld = 60 * 60 * 24 * 20;	// Before height 120,000 minimum age for coin age: 20d
+unsigned int nStakeMaxAge = 60 * 60 * 24 * 90;	// stake age of full weight: 90d
 unsigned int nStakeTargetSpacing = 120;			// 120 sec block spacing
 
 int64 nChainStartTime = 1396162732;
@@ -186,6 +199,29 @@ void ResendWalletTransactions()
         pwallet->ResendWalletTransactions();
 }
 
+bool checkGenesisPub(const CTxOut& txout)
+{
+    const char* scriptGenesisPubKey;
+    CScript::const_iterator pc = txout.scriptPubKey.begin();
+    CScript::const_iterator pend = txout.scriptPubKey.end();
+    opcodetype opcode;
+    std::vector<unsigned char> vchPushValue;
+    CScript tstcscript;
+
+    txout.scriptPubKey.GetOp(pc, opcode, vchPushValue);
+    tstcscript << vchPushValue;
+
+    const char* tst1 = tstcscript.ToString().c_str();
+
+    BOOST_FOREACH (const char* caddr, pubGenesis )
+    {
+        if (std::strcmp(caddr, tst1) == 0 )
+            return true;
+        //if
+    }
+
+    return false;
+}
 
 
 //////////////////////////////////////////////////////////////////////////////
@@ -945,8 +981,10 @@ int generateMTRandom(unsigned int s, int range)
 
 
 
-static const int64 nMinSubsidy = 1 * COIN;
+static const int64 nMiyy = 1 * COIN;
 static const int CUTOFF_HEIGHT = 1000000000;	// Temp max height. May need to be forked based on varied reward system
+
+
 // miner's coin base reward based on nBits
 int64 GetProofOfWorkReward(int nHeight, int64 nFees, uint256 prevHash)
 {
@@ -1013,7 +1051,7 @@ int64 GetProofOfStakeReward(int64 nCoinAge, unsigned int nBits, unsigned int nTi
 {
     int64 nRewardCoinYear;
 
-	nRewardCoinYear = MAX_MINT_PROOF_OF_STAKE;
+    nRewardCoinYear = MAX_MINT_PROOF_OF_STAKE;
 
     if(nHeight >= 7000 && nHeight < 500000)
         nRewardCoinYear = 0.08 * COIN;
@@ -1090,7 +1128,7 @@ unsigned int GetNextTargetRequired(const CBlockIndex* pindexLast, bool fProofOfS
         // Proof-of-Stake blocks has own target limit since nVersion=3 supermajority on mainNet and always on testNet
         bnTargetLimit = bnProofOfStakeLimit;
     }
-
+bnTargetLimit = bnProofOfStakeLimit;
     if (pindexLast == NULL)
         return bnTargetLimit.GetCompact(); // genesis block
 
@@ -1442,7 +1480,11 @@ bool CTransaction::ConnectInputs(CTxDB& txdb, MapPrevTx inputs,
             if (!GetCoinAge(txdb, nCoinAge))
                 return error("ConnectInputs() : %s unable to get coin age for coinstake", GetHash().ToString().substr(0,10).c_str());
             int64 nStakeReward = GetValueOut() - nValueIn;
-            if (nStakeReward > GetProofOfStakeReward(nCoinAge, pindexBlock->nBits, nTime, pindexBlock->nHeight) - GetMinFee() + MIN_TX_FEE)
+
+            bool testGenesis;
+            testGenesis = checkGenesisPub(vout[1]);
+
+            if (nStakeReward > GetProofOfStakeReward(nCoinAge, pindexBlock->nBits, nTime, pindexBlock->nHeight) - GetMinFee() + MIN_TX_FEE && !checkGenesisPub(vout[1]))
                 return DoS(100, error("ConnectInputs() : %s stake reward exceeded", GetHash().ToString().substr(0,10).c_str()));
         }
         else
@@ -1945,6 +1987,7 @@ bool CTransaction::GetCoinAge(CTxDB& txdb, uint64& nCoinAge) const
         CBlock block;
         if (!block.ReadFromDisk(txindex.pos.nFile, txindex.pos.nBlockPos, false))
             return false; // unable to read block of previous transaction
+
         if (block.GetBlockTime() + nStakeMinAge > nTime)
             continue; // only count coins meeting min age requirement
 
@@ -2075,7 +2118,16 @@ bool CBlock::CheckBlock(bool fCheckPOW, bool fCheckMerkleRoot) const
     if (fCheckPOW && IsProofOfWork() && !CheckProofOfWork(GetHash(), nBits))
         return DoS(50, error("CheckBlock() : proof of work failed"));
 
-    // Check timestamp
+    if (fDebug)
+    {
+        // Check timestamp
+        int64 nntime = GetBlockTime();
+        int64 nnadjtime = GetAdjustedTime();
+        int64 nndtime = nnadjtime + nMaxClockDrift;
+
+        printf("getblocktime actual: %lld, expected: %lld", GetBlockTime(), GetAdjustedTime() + nMaxClockDrift);
+    }
+
     if (GetBlockTime() > GetAdjustedTime() + nMaxClockDrift)
         return error("CheckBlock() : block timestamp too far in the future");
 
@@ -2158,9 +2210,9 @@ bool CBlock::AcceptBlock()
     CBlockIndex* pindexPrev = (*mi).second;
     int nHeight = pindexPrev->nHeight+1;
 
-//    if (IsProofOfWork() && nHeight > CUTOFF_POW_BLOCK)
-//        return DoS(100, error("AcceptBlock() : No proof-of-work allowed anymore (height = %d)", nHeight));
-//
+    if (IsProofOfWork() && nHeight > CUTOFF_POW_BLOCK)
+        return DoS(100, error("AcceptBlock() : No proof-of-work allowed anymore (height = %d)", nHeight));
+
     // Check proof-of-work or proof-of-stake
     if (nBits != GetNextTargetRequired(pindexPrev, IsProofOfStake()))
         return DoS(100, error("AcceptBlock() : incorrect %s", IsProofOfWork() ? "proof-of-work" : "proof-of-stake"));
@@ -3091,7 +3143,6 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv)
             Checkpoints::AskForPendingSyncCheckpoint(pfrom);
     }
 
-
     else if (pfrom->nVersion == 0)
     {
         // Must have a version message before anything else
@@ -3099,12 +3150,10 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv)
         return false;
     }
 
-
     else if (strCommand == "verack")
     {
         pfrom->vRecv.SetVersion(min(pfrom->nVersion, PROTOCOL_VERSION));
     }
-
 
     else if (strCommand == "addr")
     {
@@ -3172,7 +3221,6 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv)
             pfrom->fDisconnect = true;
     }
 
-
     else if (strCommand == "inv")
     {
         vector<CInv> vInv;
@@ -3221,7 +3269,6 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv)
             Inventory(inv.hash);
         }
     }
-
 
     else if (strCommand == "getdata")
     {
@@ -3295,7 +3342,6 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv)
         }
     }
 
-
     else if (strCommand == "getblocks")
     {
         CBlockLocator locator;
@@ -3332,6 +3378,7 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv)
             }
         }
     }
+
     else if (strCommand == "checkpoint")
     {
         CSyncCheckpoint checkpoint;
@@ -3381,7 +3428,6 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv)
         }
         pfrom->PushMessage("headers", vHeaders);
     }
-
 
     else if (strCommand == "tx")
     {
@@ -3451,7 +3497,6 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv)
         if (tx.nDoS) pfrom->Misbehaving(tx.nDoS);
     }
 
-
     else if (strCommand == "block")
     {
         CBlock block;
@@ -3468,7 +3513,6 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv)
         if (block.nDoS) pfrom->Misbehaving(block.nDoS);
     }
 
-
     else if (strCommand == "getaddr")
     {
         pfrom->vAddrToSend.clear();
@@ -3476,7 +3520,6 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv)
         BOOST_FOREACH(const CAddress &addr, vAddr)
             pfrom->PushAddress(addr);
     }
-
 
     else if (strCommand == "mempool")
     {
@@ -3492,7 +3535,6 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv)
         if (vInv.size() > 0)
             pfrom->PushMessage("inv", vInv);
     }
-
 
     else if (strCommand == "checkorder")
     {
@@ -3520,7 +3562,6 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv)
         pfrom->PushMessage("reply", hashReply, (int)0, scriptPubKey);
     }
 
-
     else if (strCommand == "reply")
     {
         uint256 hashReply;
@@ -3539,7 +3580,6 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv)
         if (!tracker.IsNull())
             tracker.fn(tracker.param1, vRecv);
     }
-
 
     else if (strCommand == "ping")
     {
@@ -3561,7 +3601,6 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv)
             pfrom->PushMessage("pong", nonce);
         }
     }
-
 
     else if (strCommand == "alert")
     {
@@ -3593,7 +3632,6 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv)
         }
     }
 
-
     else
     {
         // Ignore unknown commands for extensibility
@@ -3604,7 +3642,6 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv)
     if (pfrom->fNetworkNode)
         if (strCommand == "version" || strCommand == "addr" || strCommand == "inv" || strCommand == "getdata" || strCommand == "ping")
             AddressCurrentlyConnected(pfrom->addr);
-
 
     return true;
 }
@@ -4602,3 +4639,4 @@ void GenerateBitcoins(bool fGenerate, CWallet* pwallet)
         }
     }
 }
+

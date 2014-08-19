@@ -292,6 +292,7 @@ std::string HelpMessage()
         "  -blockmaxsize=<n>      "   + _("Set maximum block size in bytes (default: 250000)") + "\n" +
         "  -blockprioritysize=<n> "   + _("Set maximum size of high-priority/low-fee transactions in bytes (default: 27000)") + "\n" +
         "  -posmint=0             "   + _("Disable the PoS minting thread (default: 1)") + "\n" +
+        "  -minting=0             "   + _("Disable the PoS minting thread (default: 1)") + "\n" +
 
         "\n" + _("SSL options: (see the Bitcoin Wiki for SSL setup instructions)") + "\n" +
         "  -rpcssl                                  " + _("Use OpenSSL (https) for JSON-RPC connections") + "\n" +
@@ -393,6 +394,7 @@ bool AppInit2()
     // ********************************************************* Step 3: parameter-to-internal-flags
 
     fPosMinting = GetBoolArg("-posmint", true); // set pos minter threads on or off (default=on)
+    fPosMinting = GetBoolArg("-minting", true); // set pos minter threads on or off (default=on)
     fDebug = GetBoolArg("-debug");
     SoftSetBoolArg("-irc", false);
     SoftSetBoolArg("-dnsseed", true);

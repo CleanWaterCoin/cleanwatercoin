@@ -102,7 +102,7 @@ CoinControlDialog::CoinControlDialog(QWidget *parent) :
     connect(ui->buttonBox, SIGNAL(clicked( QAbstractButton*)), this, SLOT(buttonBoxClicked(QAbstractButton*)));
 
     // (un)select all
-    connect(ui->pushButtonSelectAll, SIGNAL(clicked()), this, SLOT(buttonSelectAllClicked()));
+    connect(ui->toolButtonSelectAll, SIGNAL(clicked()), this, SLOT(buttonSelectAllClicked()));
 
     ui->treeWidget->setColumnWidth(COLUMN_CHECKBOX, 84);
     ui->treeWidget->setColumnWidth(COLUMN_AMOUNT, 100);

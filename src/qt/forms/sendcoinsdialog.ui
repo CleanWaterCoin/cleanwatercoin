@@ -102,7 +102,7 @@
            <number>10</number>
           </property>
           <item>
-           <widget class="QPushButton" name="pushButtonCoinControl">
+           <widget class="QToolButton" name="toolButtonCoinControl">
             <property name="styleSheet">
              <string notr="true"/>
             </property>
@@ -173,7 +173,16 @@
            <string notr="true"/>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayoutCoinControl5">
-           <property name="margin">
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
             <number>0</number>
            </property>
            <item>
@@ -626,11 +635,20 @@
         <x>0</x>
         <y>0</y>
         <width>830</width>
-        <height>152</height>
+        <height>154</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
-       <property name="margin">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
         <number>0</number>
        </property>
        <item>
@@ -660,7 +678,7 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QPushButton" name="addButton">
+      <widget class="QToolButton" name="addButton">
        <property name="toolTip">
         <string>Send to multiple recipients at once</string>
        </property>
@@ -671,13 +689,13 @@
         <iconset resource="../bitcoin.qrc">
          <normaloff>:/icons/add</normaloff>:/icons/add</iconset>
        </property>
-       <property name="autoDefault">
-        <bool>false</bool>
+       <property name="toolButtonStyle">
+        <enum>Qt::ToolButtonTextOnly</enum>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="clearButton">
+      <widget class="QToolButton" name="clearButton">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -697,8 +715,8 @@
        <property name="autoRepeatDelay">
         <number>300</number>
        </property>
-       <property name="autoDefault">
-        <bool>false</bool>
+       <property name="toolButtonStyle">
+        <enum>Qt::ToolButtonTextOnly</enum>
        </property>
       </widget>
      </item>
@@ -755,10 +773,10 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="sendButton">
+      <widget class="QToolButton" name="sendButton">
        <property name="minimumSize">
         <size>
-         <width>150</width>
+         <width>0</width>
          <height>0</height>
         </size>
        </property>
@@ -772,8 +790,8 @@
         <iconset resource="../bitcoin.qrc">
          <normaloff>:/icons/send</normaloff>:/icons/send</iconset>
        </property>
-       <property name="default">
-        <bool>true</bool>
+       <property name="toolButtonStyle">
+        <enum>Qt::ToolButtonTextOnly</enum>
        </property>
       </widget>
      </item>
